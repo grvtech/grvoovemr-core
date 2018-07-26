@@ -1,10 +1,12 @@
-package com.grvtech.core.model;
+package com.grvtech.core.util;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
 import org.springframework.jdbc.core.RowMapper;
+
+import com.grvtech.core.model.User;
 
 public class UserRowMapper implements RowMapper<User> {
 

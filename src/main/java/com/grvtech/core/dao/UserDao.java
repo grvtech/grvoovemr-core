@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.grvtech.core.model.User;
-import com.grvtech.core.model.UserRowMapper;
+import com.grvtech.core.util.UserRowMapper;
 
 @Transactional
 @Repository

@@ -5,7 +5,10 @@ import java.util.UUID;
 public class Organization {
 	private int idOrganization;
 	private String nameOrganization;
-	private UUID uuidOrganisation;
+	private UUID uuidOrganization;
 	private String codeOrganization;
+	private String licence;
+	private String lws; /* licensing window start */
+	private String lwe; /* licensing window end */
 
 }
