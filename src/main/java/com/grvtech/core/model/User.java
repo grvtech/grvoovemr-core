@@ -12,6 +12,7 @@ public class User {
 	private String pin;
 	private String logo;
 	private String securityimage;
+	private String authmetod;
 
 	public User() {
 		super();
@@ -19,7 +20,7 @@ public class User {
 	}
 
 	public User(int iduser, UUID uuiduser, UUID uuidperson, String username, String password, String email, String pin,
-			String logo, String securityimage) {
+			String logo, String securityimage, String authmetod) {
 		super();
 		this.iduser = iduser;
 		this.uuiduser = uuiduser;
@@ -30,6 +31,7 @@ public class User {
 		this.pin = pin;
 		this.logo = logo;
 		this.securityimage = securityimage;
+		this.authmetod = authmetod;
 	}
 
 	/**
@@ -167,4 +169,14 @@ public class User {
 		this.securityimage = securityimage;
 	}
 
+	public String getAuthmetod() {
+		return authmetod;
+	}
+
+	public void setAuthmetod(String authmetod) {
+		this.authmetod = authmetod;
+	}
+
+	
+	
 }

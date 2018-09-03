@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Person {
-	private UUID uuid;
+	private UUID uuidperson;
 	private int idperson;
 	private Date created;
 	private Date modified;

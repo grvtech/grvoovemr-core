@@ -12,7 +12,6 @@ public class Patient extends Person {
 	private Date modified;
 	private UUID createdBy;
 	private UUID modifiedBy;
-
 	private ArrayList<EmrPersonProperty> infoPatient;
 
 }

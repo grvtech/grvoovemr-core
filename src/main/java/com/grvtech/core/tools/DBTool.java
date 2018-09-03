@@ -19,7 +19,7 @@ public class DBTool {
 
 	public void createTables() {
 
-		String userTableDrop = "DROP TABLE IF EXISTS grv_user";
+		String userTableDrop = "DROP TABLE IF EXISTS groovemr_user";
 		String userTableCreate = "CREATE TABLE `grv_user` (\n" + "  `iduser` int(11) NOT NULL AUTO_INCREMENT,\n"
 				+ "  `uuidperson` varchar(255) DEFAULT NULL,\n" + "  `uuiduser` varchar(255) DEFAULT NULL,\n"
 				+ "  `email` varchar(255) NOT NULL,\n" + "  `pin` varchar(10) NOT NULL,\n"

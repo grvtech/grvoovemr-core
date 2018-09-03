@@ -31,11 +31,9 @@ public class DBToolController {
 	@RequestMapping("/tools/addusers")
 	public ResponseEntity<User> addusers() {
 
-		User u1 = new User(1, UUID.randomUUID(), UUID.randomUUID(), "radu", "radu", "radu@grvtech.ca", "1234", "", "");
-		User u2 = new User(1, UUID.randomUUID(), UUID.randomUUID(), "victor", "victor", "victor@grvtech.ca", "1234", "",
-				"");
-		User u3 = new User(1, UUID.randomUUID(), UUID.randomUUID(), "gabor", "gabor", "gabor@grvtech.ca", "1234", "",
-				"");
+		User u1 = new User(1, UUID.randomUUID(), UUID.randomUUID(), "radu", "radu", "radu@grvtech.ca", "1234", "", "","0");
+		User u2 = new User(1, UUID.randomUUID(), UUID.randomUUID(), "victor", "victor", "victor@grvtech.ca", "1234", "","","1");
+		User u3 = new User(1, UUID.randomUUID(), UUID.randomUUID(), "gabor", "gabor", "gabor@grvtech.ca", "1234", "","","2");
 		userservice.addUser(u1);
 		userservice.addUser(u2);
 		userservice.addUser(u3);
