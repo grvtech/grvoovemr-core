@@ -31,6 +31,11 @@ import com.grvtech.core.util.CryptoUtil;
 @RestController
 public class UserController {
 
+	/*
+	 * 
+	 * https://www.thomasvitale.com/https-spring-boot-ssl-certificate/
+	 */
+
 	@Autowired
 	private IUserService userservice;
 
@@ -45,7 +50,6 @@ public class UserController {
 
 		BufferedReader reader;
 		try {
-
 			Map<String, String[]> map = request.getParameterMap();
 			ArrayList<String> iti = new ArrayList(map.keySet());
 			for (int i = 0; i < iti.size(); i++) {
@@ -74,15 +78,16 @@ public class UserController {
 
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode jn = mapper.readTree(sb.toString());
-			JsonNode user = jn.get("username");
-			JsonNode pass = jn.get("password");
+			JsonNode elements = jn.get("elements");
+			JsonNode user = elements.get("username");
+			JsonNode pass = elements.get("password");
 
 			System.out.println("------------------------------");
-			System.out.println("username encrypted: " + user.get(0));
-			System.out.println("password encrypted: " + pass.get(0));
+			System.out.println("username encrypted: " + user);
+			System.out.println("password encrypted: " + pass);
 			try {
-				System.out.println("username decrypted: " + CryptoUtil.decrypt("test", user.get(0).asText()));
-				System.out.println("password decrypted: " + CryptoUtil.decrypt("test", pass.get(0).asText()));
+				System.out.println("username decrypted: " + CryptoUtil.decrypt("test", user.asText()));
+				System.out.println("password decrypted: " + CryptoUtil.decrypt("test", pass.asText()));
 			} catch (InvalidKeyException e) {
 				e.printStackTrace();
 			} catch (NoSuchAlgorithmException e) {
@@ -105,8 +110,9 @@ public class UserController {
 			e.printStackTrace();
 		}
 
-		User u1 = userservice.getUserById(2);
-		return new ResponseEntity<User>(u1, HttpStatus.OK);
+		// User u1 = userservice.getUserById(2);
+		User ul = new User();
+		return new ResponseEntity<User>(ul, HttpStatus.OK);
 	}
 
 }
