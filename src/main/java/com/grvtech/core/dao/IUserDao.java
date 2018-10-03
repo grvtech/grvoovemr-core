@@ -17,4 +17,8 @@ public interface IUserDao {
 
 	boolean userExists(String username, String password);
 
+	User getUserByUsernamePassword(String user, String pass);
+
+	User getUserByEmailPassword(String email, String pass);
+
 }

@@ -25,6 +25,15 @@ public class UserService implements IUserService {
 	}
 
 	@Override
+	public User getUserByUsernamePassword(String user, String pass) {
+		return userdao.getUserByUsernamePassword(user, pass);
+	}
+
+	@Override
+	public User getUserByEmailPassword(String email, String pass) {
+		return userdao.getUserByEmailPassword(email, pass);
+	}
+	@Override
 	public boolean addUser(User user) {
 
 		if (userdao.userExists(user.getUsername(), user.getPassword())) {
