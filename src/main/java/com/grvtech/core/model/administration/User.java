@@ -1,26 +1,33 @@
-package com.grvtech.core.model;
+package com.grvtech.core.model.administration;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class User {
 	private int iduser;
 	private UUID uuiduser;
 	private UUID uuidperson;
+	private UUID uuidrole;
+	private UUID uuidgroup;
+	private UUID uuidapplication;
 	private String username;
 	private String password;
 	private String email;
 	private String pin;
-	private String logo;
+	private String logo; // can be an url or a name of a local image
 	private String securityimage;
 	private String authmetod;
+	private String language;
+	private Date created;
+	private Date modified;
+	private UUID createdBy;
+	private UUID modifiedBy;
 
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public User(int iduser, UUID uuiduser, UUID uuidperson, String username, String password, String email, String pin,
-			String logo, String securityimage, String authmetod) {
+	public User(int iduser, UUID uuiduser, UUID uuidperson, String username, String password, String email, String pin, String logo, String securityimage, String authmetod) {
 		super();
 		this.iduser = iduser;
 		this.uuiduser = uuiduser;
@@ -177,6 +184,4 @@ public class User {
 		this.authmetod = authmetod;
 	}
 
-	
-	
 }

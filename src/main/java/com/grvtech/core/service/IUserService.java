@@ -2,7 +2,7 @@ package com.grvtech.core.service;
 
 import java.util.List;
 
-import com.grvtech.core.model.User;
+import com.grvtech.core.model.administration.User;
 
 public interface IUserService {
 	List<User> getAllUsers();

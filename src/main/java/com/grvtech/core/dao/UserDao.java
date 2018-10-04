@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.grvtech.core.model.User;
+import com.grvtech.core.model.administration.User;
 import com.grvtech.core.util.UserRowMapper;
 
 @Transactional

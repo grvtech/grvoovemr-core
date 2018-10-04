@@ -1,4 +1,4 @@
-package com.grvtech.core.model;
+package com.grvtech.core.model.administration;
 
 import java.util.UUID;
 

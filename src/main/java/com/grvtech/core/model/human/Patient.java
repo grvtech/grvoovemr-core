@@ -1,4 +1,4 @@
-package com.grvtech.core.model;
+package com.grvtech.core.model.human;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +12,6 @@ public class Patient extends Person {
 	private Date modified;
 	private UUID createdBy;
 	private UUID modifiedBy;
-	private ArrayList<EmrPersonProperty> infoPatient;
+	private ArrayList<EmrProperty> infoPatient;
 
 }

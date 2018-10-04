@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grvtech.core.model.User;
+import com.grvtech.core.model.administration.User;
 import com.grvtech.core.service.IUserService;
 
 @RestController

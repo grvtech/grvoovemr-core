@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.grvtech.core.model.User;
+import com.grvtech.core.model.administration.User;
 
 public class UserRowMapper implements RowMapper<User> {
 

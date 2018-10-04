@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.grvtech.core.model.User;
+import com.grvtech.core.model.administration.User;
 import com.grvtech.core.service.UserService;
 import com.grvtech.core.util.CryptoUtil;
 

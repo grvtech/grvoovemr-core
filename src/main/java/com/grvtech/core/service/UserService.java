@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grvtech.core.dao.IUserDao;
-import com.grvtech.core.model.User;
+import com.grvtech.core.model.administration.User;
 
 @Service
 public class UserService implements IUserService {
