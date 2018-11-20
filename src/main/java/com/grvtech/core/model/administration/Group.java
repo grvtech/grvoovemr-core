@@ -1,73 +1,62 @@
 package com.grvtech.core.model.administration;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
-public class Role {
-	private int idrole;
-	private UUID uuidrole;
-	private String name;
+/*
+ * can be nurse nutritionis chr md patient 
+ * 
+ * */
+
+public class Group {
+	private int idgroup;
+	private UUID uuidgroup;
 	private String code;
+	private String name;
 	private Date created;
 	private Date modified;
 	private UUID createdBy;
 	private UUID modifiedBy;
-	private List<Action> rights;
-	public Role() {
+	public Group() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Role(int idrole, UUID uuidrole, String name, String code, Date created, Date modified, UUID createdBy, UUID modifiedBy, List<Action> rights) {
+	public Group(int idgroup, UUID uuidgroup, String code, String name, Date created, Date modified, UUID createdBy, UUID modifiedBy) {
 		super();
-		this.idrole = idrole;
-		this.uuidrole = uuidrole;
-		this.name = name;
+		this.idgroup = idgroup;
+		this.uuidgroup = uuidgroup;
 		this.code = code;
+		this.name = name;
 		this.created = created;
 		this.modified = modified;
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
-		this.rights = rights;
 	}
 	/**
-	 * @return the idrole
+	 * @return the idgroup
 	 */
-	public int getIdrole() {
-		return idrole;
+	public int getIdgroup() {
+		return idgroup;
 	}
 	/**
-	 * @param idrole
-	 *            the idrole to set
+	 * @param idgroup
+	 *            the idgroup to set
 	 */
-	public void setIdrole(int idrole) {
-		this.idrole = idrole;
+	public void setIdgroup(int idgroup) {
+		this.idgroup = idgroup;
 	}
 	/**
-	 * @return the uuidrole
+	 * @return the uuidgroup
 	 */
-	public UUID getUuidrole() {
-		return uuidrole;
+	public UUID getUuidgroup() {
+		return uuidgroup;
 	}
 	/**
-	 * @param uuidrole
-	 *            the uuidrole to set
+	 * @param uuidgroup
+	 *            the uuidgroup to set
 	 */
-	public void setUuidrole(UUID uuidrole) {
-		this.uuidrole = uuidrole;
-	}
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setUuidgroup(UUID uuidgroup) {
+		this.uuidgroup = uuidgroup;
 	}
 	/**
 	 * @return the code
@@ -81,6 +70,19 @@ public class Role {
 	 */
 	public void setCode(String code) {
 		this.code = code;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 	/**
 	 * @return the created
@@ -133,19 +135,6 @@ public class Role {
 	 */
 	public void setModifiedBy(UUID modifiedBy) {
 		this.modifiedBy = modifiedBy;
-	}
-	/**
-	 * @return the rights
-	 */
-	public List<Action> getRights() {
-		return rights;
-	}
-	/**
-	 * @param rights
-	 *            the rights to set
-	 */
-	public void setRights(List<Action> rights) {
-		this.rights = rights;
 	}
 
 }

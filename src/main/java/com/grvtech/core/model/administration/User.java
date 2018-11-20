@@ -9,7 +9,6 @@ public class User {
 	private UUID uuidperson;
 	private UUID uuidrole;
 	private UUID uuidgroup;
-	private UUID uuidapplication;
 	private String username;
 	private String password;
 	private String email;
@@ -27,11 +26,14 @@ public class User {
 		super();
 	}
 
-	public User(int iduser, UUID uuiduser, UUID uuidperson, String username, String password, String email, String pin, String logo, String securityimage, String authmetod) {
+	public User(int iduser, UUID uuiduser, UUID uuidperson, UUID uuidrole, UUID uuidgroup, String username, String password, String email, String pin, String logo, String securityimage,
+			String authmetod, String language, Date created, Date modified, UUID createdBy, UUID modifiedBy) {
 		super();
 		this.iduser = iduser;
 		this.uuiduser = uuiduser;
 		this.uuidperson = uuidperson;
+		this.uuidrole = uuidrole;
+		this.uuidgroup = uuidgroup;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -39,6 +41,11 @@ public class User {
 		this.logo = logo;
 		this.securityimage = securityimage;
 		this.authmetod = authmetod;
+		this.language = language;
+		this.created = created;
+		this.modified = modified;
+		this.createdBy = createdBy;
+		this.modifiedBy = modifiedBy;
 	}
 
 	/**
@@ -84,6 +91,36 @@ public class User {
 	 */
 	public void setUuidperson(UUID uuidperson) {
 		this.uuidperson = uuidperson;
+	}
+
+	/**
+	 * @return the uuidrole
+	 */
+	public UUID getUuidrole() {
+		return uuidrole;
+	}
+
+	/**
+	 * @param uuidrole
+	 *            the uuidrole to set
+	 */
+	public void setUuidrole(UUID uuidrole) {
+		this.uuidrole = uuidrole;
+	}
+
+	/**
+	 * @return the uuidgroup
+	 */
+	public UUID getUuidgroup() {
+		return uuidgroup;
+	}
+
+	/**
+	 * @param uuidgroup
+	 *            the uuidgroup to set
+	 */
+	public void setUuidgroup(UUID uuidgroup) {
+		this.uuidgroup = uuidgroup;
 	}
 
 	/**
@@ -176,12 +213,94 @@ public class User {
 		this.securityimage = securityimage;
 	}
 
+	/**
+	 * @return the authmetod
+	 */
 	public String getAuthmetod() {
 		return authmetod;
 	}
 
+	/**
+	 * @param authmetod
+	 *            the authmetod to set
+	 */
 	public void setAuthmetod(String authmetod) {
 		this.authmetod = authmetod;
+	}
+
+	/**
+	 * @return the language
+	 */
+	public String getLanguage() {
+		return language;
+	}
+
+	/**
+	 * @param language
+	 *            the language to set
+	 */
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	/**
+	 * @return the created
+	 */
+	public Date getCreated() {
+		return created;
+	}
+
+	/**
+	 * @param created
+	 *            the created to set
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * @return the modified
+	 */
+	public Date getModified() {
+		return modified;
+	}
+
+	/**
+	 * @param modified
+	 *            the modified to set
+	 */
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	/**
+	 * @return the createdBy
+	 */
+	public UUID getCreatedBy() {
+		return createdBy;
+	}
+
+	/**
+	 * @param createdBy
+	 *            the createdBy to set
+	 */
+	public void setCreatedBy(UUID createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	/**
+	 * @return the modifiedBy
+	 */
+	public UUID getModifiedBy() {
+		return modifiedBy;
+	}
+
+	/**
+	 * @param modifiedBy
+	 *            the modifiedBy to set
+	 */
+	public void setModifiedBy(UUID modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 }
