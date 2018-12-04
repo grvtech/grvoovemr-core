@@ -46,7 +46,7 @@ public class UserController {
 		return new ResponseEntity<User>(u1, HttpStatus.OK);
 	}
 
-	/* getUserByUsernamePassword */
+	/* getUserByUsernamePassword gubup */
 	@RequestMapping(value = "/user/gubup", method = RequestMethod.POST)
 	public ResponseEntity<User> getUserByUsernamePassword(final HttpServletRequest request) {
 		User ul = new User();
