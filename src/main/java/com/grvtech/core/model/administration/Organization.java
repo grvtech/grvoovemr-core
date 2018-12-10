@@ -11,6 +11,7 @@ public class Organization {
 	private String licence;
 	private Date lws; /* licensing window start */
 	private Date lwe; /* licensing window end */
+
 	public Organization(int idorganization, String nameOrganization, UUID uuidorganization, String codeorganization, String licence, Date lws, Date lwe) {
 		super();
 		this.idorganization = idorganization;
