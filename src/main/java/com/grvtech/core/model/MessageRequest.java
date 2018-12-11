@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.grvtech.core.model.administration.Organization;
 import com.grvtech.core.service.administration.IOrganizationService;
 import com.grvtech.core.util.CryptoUtil;
+import com.grvtech.core.util.HttpUtil;
 
 public class MessageRequest {
 	private UUID uuidorganization;
@@ -34,29 +36,37 @@ public class MessageRequest {
 	@Autowired
 	IOrganizationService orgservice;
 
-	public MessageRequest(JsonNode jn) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
+	public MessageRequest(HttpServletRequest request) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
 			IllegalBlockSizeException, BadPaddingException, IOException {
 
-		ObjectMapper mapper = new ObjectMapper();
-		this.action = jn.get("action").asText();
-		this.uuidsession = UUID.fromString(jn.get("uuidsession").asText());
-		this.uuidorganization = UUID.fromString(jn.get("uuidorganization").asText());
-		Organization organization = orgservice.getOrganizationByUUID(this.uuidorganization);
-		JsonNode elems = jn.get("elements");
-		this.elements = mapper.createObjectNode();
-		Iterator<String> fieldNames = elems.fieldNames();
-		String cryptoKey = organization.getLicence();
-		if (cryptoKey.equals("0")) {
-			cryptoKey = this.action;
-		}
-		while (fieldNames.hasNext()) {
-			String fieldName = fieldNames.next();
-			this.elements.put(fieldName, CryptoUtil.decrypt(cryptoKey, elems.get(fieldName).asText()));
+		String organizationStr = request.getHeader("organization");
+		Organization organization = orgservice.getOrganizationByUUID(UUID.fromString(organizationStr));
+
+		if (!organization.isEmpty()) {
+			JsonNode jn = HttpUtil.getJSONFromPost(request);
+			ObjectMapper mapper = new ObjectMapper();
+			this.action = jn.get("action").asText();
+			this.uuidsession = UUID.fromString(jn.get("uuidsession").asText());
+			this.uuidorganization = UUID.fromString(organizationStr);
+			JsonNode elems = jn.get("elements");
+			this.elements = mapper.createObjectNode();
+			Iterator<String> fieldNames = elems.fieldNames();
+			String cryptoKey = organization.getLicence();
+			if (cryptoKey.equals("0")) {
+				cryptoKey = this.action;
+			}
+			while (fieldNames.hasNext()) {
+				String fieldName = fieldNames.next();
+				this.elements.put(fieldName, CryptoUtil.decrypt(cryptoKey, elems.get(fieldName).asText()));
+			}
+		} else {
+			this.action = "gol";
 		}
 	}
 
 	public MessageRequest() {
 		super();
+		this.action = "gol";
 	}
 
 	public MessageRequest(String uuidorganization, String uuidsession, String action, ObjectNode elements) {
@@ -65,6 +75,13 @@ public class MessageRequest {
 		this.uuidsession = UUID.fromString(uuidsession);
 		this.action = action;
 		this.elements = elements;
+	}
+
+	public boolean isEmpty() {
+		boolean result = false;
+		if (this.action.equals("gol"))
+			result = true;
+		return result;
 	}
 
 	/**

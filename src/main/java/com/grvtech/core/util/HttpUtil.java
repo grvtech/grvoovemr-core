@@ -1,4 +1,4 @@
-package com.grvtech.core.tools;
+package com.grvtech.core.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

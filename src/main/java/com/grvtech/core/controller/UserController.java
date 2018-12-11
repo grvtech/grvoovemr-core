@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -222,17 +221,20 @@ public class UserController {
 			System.out.println("username encrypted: " + user);
 			System.out.println("password encrypted: " + pass);
 
-			String username = CryptoUtil.decrypt("test", user.asText());
-			String password = CryptoUtil.decrypt("test", pass.asText());
-			String uuiduser = CryptoUtil.decrypt("test", elements.get("uuiduser").asText());
-			String uuidperson = CryptoUtil.decrypt("test", elements.get("uuidperson").asText());
-			String email = CryptoUtil.decrypt("test", elements.get("email").asText());
-			String pin = CryptoUtil.decrypt("test", elements.get("pin").asText());
-			String logo = CryptoUtil.decrypt("test", elements.get("logo").asText());
-			String securityimage = CryptoUtil.decrypt("test", elements.get("securityimage").asText());
-			String authmethod = CryptoUtil.decrypt("test", elements.get("authmethod").asText());
+			CryptoUtil.decrypt("test", user.asText());
+			CryptoUtil.decrypt("test", pass.asText());
+			CryptoUtil.decrypt("test", elements.get("uuiduser").asText());
+			CryptoUtil.decrypt("test", elements.get("uuidperson").asText());
+			CryptoUtil.decrypt("test", elements.get("email").asText());
+			CryptoUtil.decrypt("test", elements.get("pin").asText());
+			CryptoUtil.decrypt("test", elements.get("logo").asText());
+			CryptoUtil.decrypt("test", elements.get("securityimage").asText());
+			CryptoUtil.decrypt("test", elements.get("authmethod").asText());
 
-			ul = new User(0, UUID.fromString(uuiduser), UUID.fromString(uuidperson), username, password, email, pin, logo, securityimage, authmethod);
+			// ul = new User(0, UUID.fromString(uuiduser),
+			// UUID.fromString(uuidperson), username, password, email, pin,
+			// logo, securityimage, authmethod);
+			ul = new User();
 			userservice.addUser(ul);
 
 		} catch (IOException e) {

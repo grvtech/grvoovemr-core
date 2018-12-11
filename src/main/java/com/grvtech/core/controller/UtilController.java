@@ -1,5 +1,14 @@
 package com.grvtech.core.controller;
 
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -10,17 +19,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grvtech.core.model.MessageRequest;
 import com.grvtech.core.model.MessageResponse;
-import com.grvtech.core.model.administration.User;
-import com.grvtech.core.tools.HttpUtil;
+import com.grvtech.core.util.HttpUtil;
 
 @RestController
 public class UtilController {
 
 	@RequestMapping(value = "/util/gl", method = RequestMethod.POST)
 	public ResponseEntity<MessageResponse> getLicense(final HttpServletRequest request) {
-		MessageRequest mreq = new MessageRequest(HttpUtil.getJSONFromPost(request));
+		try {
+			new MessageRequest(HttpUtil.getJSONFromPost(request));
+		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException
+				| BadPaddingException | IOException e) {
 
-		return new ResponseEntity<User>(u1, HttpStatus.OK);
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<MessageResponse>(new MessageResponse(), HttpStatus.OK);
 	}
 
 }

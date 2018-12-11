@@ -34,9 +34,9 @@ public class DBToolController {
 		// "victor", "victor@grvtech.ca", "1234", "","","1");
 		// User u3 = new User(1, UUID.randomUUID(), UUID.randomUUID(), "gabor",
 		// "gabor", "gabor@grvtech.ca", "1234", "","","2");
-		userservice.addUser(u1);
-		userservice.addUser(u2);
-		userservice.addUser(u3);
-		return new ResponseEntity<User>(u1, HttpStatus.OK);
+		// userservice.addUser(u1);
+		// userservice.addUser(u2);
+		// userservice.addUser(u3);
+		return new ResponseEntity<User>(new User(), HttpStatus.OK);
 	}
 }
