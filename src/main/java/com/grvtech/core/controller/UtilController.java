@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.grvtech.core.model.MessageRequest;
 import com.grvtech.core.model.MessageResponse;
+import com.grvtech.core.model.administration.Organization;
 import com.grvtech.core.util.HttpUtil;
 
 @RestController
@@ -26,8 +27,11 @@ public class UtilController {
 
 	@RequestMapping(value = "/util/gl", method = RequestMethod.POST)
 	public ResponseEntity<MessageResponse> getLicense(final HttpServletRequest request) {
+		MessageResponse mres = new MessageResponse("error","clear", );
 		try {
-			new MessageRequest(HttpUtil.getJSONFromPost(request));
+			MessageRequest mreq = new MessageRequest(request);
+			Organization organization = 
+			
 		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException
 				| BadPaddingException | IOException e) {
 
