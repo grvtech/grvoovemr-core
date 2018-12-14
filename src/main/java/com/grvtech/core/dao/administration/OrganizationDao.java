@@ -5,9 +5,11 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import com.grvtech.core.model.administration.Organization;
 
+@Component
 public class OrganizationDao implements IOrganizationDao {
 
 	@Autowired

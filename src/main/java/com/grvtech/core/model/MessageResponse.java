@@ -1,8 +1,25 @@
 package com.grvtech.core.model;
 
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.UUID;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.grvtech.core.model.administration.Organization;
+import com.grvtech.core.service.administration.IOrganizationService;
+import com.grvtech.core.util.CryptoUtil;
 
 /*
 {
@@ -47,34 +64,79 @@ an event
 */
 
 public class MessageResponse {
-	private String state; // clear|enc
+	private UUID uuidsession; // clear|enc
 	private String status; // success|error
+	private String action;
 	private ObjectNode elements; // on error is empty
+
+	@Autowired
+	public IOrganizationService orgservice;
 
 	public MessageResponse() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.action = "gol";
 	}
-	public MessageResponse(String state, String status, ObjectNode elements) {
+
+	public MessageResponse(boolean status, MessageRequest mr, HashMap<String, String> map) {
 		super();
-		this.state = state;
-		this.status = status;
-		this.elements = elements;
+		ObjectMapper mapper = new ObjectMapper();
+		this.action = mr.getAction();
+		this.uuidsession = mr.getUuidsession();
+		if (status) {
+			this.status = "success";
+		} else {
+			this.status = "error";
+		}
+		if (this.action.equals("gol")) {
+			this.status = "error";
+		} else {
+			this.elements = mapper.createObjectNode();
+			Set<String> fieldNames = map.keySet();
+			Organization org = orgservice.getOrganizationByUUID(mr.getUuidorganization());
+			for (String fieldName : fieldNames) {
+				try {
+					this.elements.put(fieldName, CryptoUtil.encrypt(org.getLicence(), map.get(fieldName)));
+				} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | UnsupportedEncodingException
+						| IllegalBlockSizeException | BadPaddingException e) {
+
+					e.printStackTrace();
+					this.status = "error";
+					break;
+				}
+			}
+		}
 	}
 
 	/**
-	 * @return the state
+	 * @return the uuidsession
 	 */
-	public String getState() {
-		return state;
+	public UUID getUuidsession() {
+		return uuidsession;
 	}
+
 	/**
-	 * @param state
-	 *            the state to set
+	 * @param uuidsession
+	 *            the uuidsession to set
 	 */
-	public void setState(String state) {
-		this.state = state;
+	public void setUuidsession(UUID uuidsession) {
+		this.uuidsession = uuidsession;
 	}
+
+	/**
+	 * @return the action
+	 */
+	public String getAction() {
+		return action;
+	}
+
+	/**
+	 * @param action
+	 *            the action to set
+	 */
+	public void setAction(String action) {
+		this.action = action;
+	}
+
 	/**
 	 * @return the status
 	 */
@@ -92,15 +154,31 @@ public class MessageResponse {
 	/**
 	 * @return the elements
 	 */
-	public ArrayList<Object> getElements() {
+	public ObjectNode getElements() {
 		return elements;
 	}
 	/**
 	 * @param elements
 	 *            the elements to set
 	 */
-	public void setElements(ArrayList<Object> elements) {
+	public void setElements(ObjectNode elements) {
 		this.elements = elements;
+	}
+
+	public void setElements(HashMap<String, String> elements, String licence) {
+		ObjectMapper mapper = new ObjectMapper();
+		this.elements = mapper.createObjectNode();
+		Set<String> fieldNames = elements.keySet();
+		for (String fieldName : fieldNames) {
+			try {
+				this.elements.put(fieldName, CryptoUtil.encrypt(licence, elements.get(fieldName)));
+			} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | UnsupportedEncodingException
+					| IllegalBlockSizeException | BadPaddingException e) {
+				e.printStackTrace();
+				this.status = "error";
+				break;
+			}
+		}
 	}
 
 }
