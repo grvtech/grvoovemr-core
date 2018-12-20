@@ -21,7 +21,7 @@ public class UserDao implements IUserDao {
 
 	@Override
 	public User getUserById(int UserId) {
-		String sql = "SELECT * FROM grv_user WHERE iduser = ?";
+		String sql = "SELECT * FROM user WHERE iduser = ?";
 		RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
 		User User = jdbcTemplate.queryForObject(sql, rowMapper, UserId);
 		return User;
@@ -29,7 +29,7 @@ public class UserDao implements IUserDao {
 
 	@Override
 	public User getUserByUsernamePassword(String user, String pass) {
-		String sql = "SELECT * FROM grv_user WHERE username = ? and password=?";
+		String sql = "SELECT * FROM user WHERE username = ? and password=?";
 		RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
 		// User User = jdbcTemplate. .queryForObject(sql, rowMapper, user,
 		// pass);
@@ -43,7 +43,7 @@ public class UserDao implements IUserDao {
 
 	@Override
 	public User getUserByEmailPassword(String email, String pass) {
-		String sql = "SELECT * FROM grv_user WHERE email = ? and password=?";
+		String sql = "SELECT * FROM user WHERE email = ? and password=?";
 		RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
 		// User User = jdbcTemplate.queryForObject(sql, rowMapper, email, pass);
 		List users = jdbcTemplate.query(sql, rowMapper, email, pass);
@@ -56,7 +56,7 @@ public class UserDao implements IUserDao {
 
 	@Override
 	public List<User> getAllUsers() {
-		String sql = "SELECT * FROM grv_user";
+		String sql = "SELECT * FROM user";
 		// RowMapper<User> rowMapper = new
 		// BeanPropertyRowMapper<User>(User.class);
 		RowMapper<User> rowMapper = new UserRowMapper();
@@ -66,12 +66,12 @@ public class UserDao implements IUserDao {
 	@Override
 	public void addUser(User User) {
 		// Add User
-		String sql = "INSERT INTO grv_user (uuiduser,uuidperson,username,password,email,logo,securityimage, pin) values (?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO user (uuiduser,uuidperson,username,password,email,logo,securityimage, pin) values (?, ?, ?, ?, ?, ?, ?, ?)";
 		jdbcTemplate.update(sql, User.getUuiduser().toString(), User.getUuidperson().toString(), User.getUsername(), User.getPassword(), User.getEmail(), User.getLogo(), User.getSecurityimage(), User
 				.getPin());
 
 		// Fetch User id
-		sql = "SELECT iduser FROM grv_user WHERE username = ? and password=?";
+		sql = "SELECT iduser FROM user WHERE username = ? and password=?";
 		int UserId = jdbcTemplate.queryForObject(sql, Integer.class, User.getUsername(), User.getPassword());
 
 		// Set User id
@@ -80,19 +80,19 @@ public class UserDao implements IUserDao {
 
 	@Override
 	public void updateUser(User User) {
-		String sql = "UPDATE grv_user SET username=?, password=?, email=?, logo=?, securityimage = ?, pin=? WHERE iduser=?";
+		String sql = "UPDATE user SET username=?, password=?, email=?, logo=?, securityimage = ?, pin=? WHERE iduser=?";
 		jdbcTemplate.update(sql, User.getUsername(), User.getPassword(), User.getEmail(), User.getLogo(), User.getSecurityimage(), User.getPin(), User.getIduser());
 	}
 
 	@Override
 	public void deleteUser(int UserId) {
-		String sql = "DELETE FROM grv_user WHERE iduser=?";
+		String sql = "DELETE FROM user WHERE iduser=?";
 		jdbcTemplate.update(sql, UserId);
 	}
 
 	@Override
 	public boolean userExists(String username, String password) {
-		String sql = "SELECT count(*) FROM grv_user WHERE username = ? and password=?";
+		String sql = "SELECT count(*) FROM user WHERE username = ? and password=?";
 		int count = jdbcTemplate.queryForObject(sql, Integer.class, username, password);
 		if (count == 0) {
 			return false;

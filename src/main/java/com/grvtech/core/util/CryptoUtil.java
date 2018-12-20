@@ -2,18 +2,14 @@ package com.grvtech.core.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Date;
 import java.util.Random;
 
 import javax.crypto.BadPaddingException;
@@ -190,91 +186,6 @@ public class CryptoUtil {
 		return result;
 	}
 
-	public static void main(String[] args) throws Exception {
-		CryptoUtil cryptoUtil = new CryptoUtil();
-		String key = constructKey();
-		String plain = "20180722";
-		String enc = cryptoUtil.encrypt(key, plain);
-		System.out.println("Original text: " + plain);
-		System.out.println("Encrypted text: " + enc);
-		String plainAfter = cryptoUtil.decrypt(key, enc);
-		System.out.println("Original text after decryption: " + plainAfter);
-
-		int sum = 0;
-		for (int i = 0; i < 4; i++) {
-			Random rn = new Random();
-			int r = rn.nextInt(3) + 1;
-			int p = getNumber(r);
-			System.out.println("code : " + getChar(getCharCode(p, r)));
-			System.out.println("num : " + p);
-			sum += p;
-		}
-		System.out.println("sum : " + sum);
-
-		// combin(57, 4);
-
-		String base = "0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
-		String Licence = "";
-		ArrayList<Integer> set1 = combin(47, 6);
-		ArrayList<Integer> set2 = combin(52, 6);
-		ArrayList<Integer> set3 = combin(56, 6);
-		for (int j = 0; j < set1.size(); j++) {
-			// System.out.print(base.substring(set1.get(j), set1.get(j) + 1));
-			Licence += base.substring(set1.get(j), set1.get(j) + 1);
-		}
-		// System.out.print("-");
-		Licence += "-";
-		for (int j = 0; j < set2.size(); j++) {
-			// System.out.print(base.substring(set2.get(j), set2.get(j) + 1));
-			Licence += base.substring(set2.get(j), set2.get(j) + 1);
-		}
-		// System.out.print("-");
-		Licence += "-";
-		for (int j = 0; j < set3.size(); j++) {
-			// System.out.print(base.substring(set3.get(j), set3.get(j) + 1));
-			Licence += base.substring(set3.get(j), set3.get(j) + 1);
-		}
-
-		System.out.print(Licence);
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-
-		String d1 = "20180702";
-		String d2 = "20181102";
-
-		String tt = "E1916B-Hc4324-U11121";
-
-		Date now = new Date();
-		String encd1 = cryptoUtil.encrypt(tt, d1);
-		String encd2 = cryptoUtil.encrypt(tt, d2);
-		System.out.println();
-		System.out.println("date 1 encripted : " + encd1);
-		System.out.println("date 2 encripted : " + encd2);
-
-		System.out.println("date now  : " + sdf1.format(now));
-
-		Date dd1 = sdf.parse(cryptoUtil.decrypt(tt, encd1));
-		Date dd2 = sdf.parse(cryptoUtil.decrypt(tt, encd2));
-		if (now.after(dd1) && now.before(dd2)) {
-			System.out.println("LICENCE IS VALID");
-		} else {
-			System.out.println("LICENCE NOT VALID");
-		}
-
-		String prehash = "1" + "E1916B-Hc4324-U11121" + encd1 + encd2;
-		// String prehash = "1" + "E1916B-Hc4324-U11121";
-
-		System.out.println(Base64.getEncoder().encodeToString(prehash.getBytes()));
-
-		MessageDigest digest = MessageDigest.getInstance("SHA-256");
-		byte[] encodedhash = digest.digest(prehash.getBytes(StandardCharsets.UTF_8));
-
-		System.out.println();
-		System.out.println(bytesToHex(encodedhash));
-
-	}
-
 	private static String bytesToHex(byte[] hash) {
 		StringBuffer hexString = new StringBuffer();
 		for (int i = 0; i < hash.length; i++) {
@@ -285,5 +196,71 @@ public class CryptoUtil {
 		}
 		return hexString.toString();
 	}
+
+	/*
+	 * 
+	 * public static void main(String[] args) throws Exception { CryptoUtil
+	 * cryptoUtil = new CryptoUtil(); String key = constructKey(); String plain
+	 * = "20180722"; String enc = cryptoUtil.encrypt(key, plain);
+	 * System.out.println("Original text: " + plain);
+	 * System.out.println("Encrypted text: " + enc); String plainAfter =
+	 * cryptoUtil.decrypt(key, enc);
+	 * System.out.println("Original text after decryption: " + plainAfter);
+	 * 
+	 * int sum = 0; for (int i = 0; i < 4; i++) { Random rn = new Random(); int
+	 * r = rn.nextInt(3) + 1; int p = getNumber(r); System.out.println("code : "
+	 * + getChar(getCharCode(p, r))); System.out.println("num : " + p); sum +=
+	 * p; } System.out.println("sum : " + sum);
+	 * 
+	 * // combin(57, 4);
+	 * 
+	 * String base =
+	 * "0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"; String
+	 * Licence = ""; ArrayList<Integer> set1 = combin(47, 6); ArrayList<Integer>
+	 * set2 = combin(52, 6); ArrayList<Integer> set3 = combin(56, 6); for (int j
+	 * = 0; j < set1.size(); j++) { //
+	 * System.out.print(base.substring(set1.get(j), set1.get(j) + 1)); Licence
+	 * += base.substring(set1.get(j), set1.get(j) + 1); } //
+	 * System.out.print("-"); Licence += "-"; for (int j = 0; j < set2.size();
+	 * j++) { // System.out.print(base.substring(set2.get(j), set2.get(j) + 1));
+	 * Licence += base.substring(set2.get(j), set2.get(j) + 1); } //
+	 * System.out.print("-"); Licence += "-"; for (int j = 0; j < set3.size();
+	 * j++) { // System.out.print(base.substring(set3.get(j), set3.get(j) + 1));
+	 * Licence += base.substring(set3.get(j), set3.get(j) + 1); }
+	 * 
+	 * System.out.print(Licence);
+	 * 
+	 * SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); SimpleDateFormat
+	 * sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+	 * 
+	 * String d1 = "20180702"; String d2 = "20191102";
+	 * 
+	 * String tt = "E1916B-Hc4324-U11121";
+	 * 
+	 * Date now = new Date(); String encd1 = cryptoUtil.encrypt(tt, d1); String
+	 * encd2 = cryptoUtil.encrypt(tt, d2); System.out.println();
+	 * System.out.println("date 1 encripted : " + encd1);
+	 * System.out.println("date 2 encripted : " + encd2);
+	 * 
+	 * System.out.println("date now  : " + sdf1.format(now));
+	 * 
+	 * Date dd1 = sdf.parse(cryptoUtil.decrypt(tt, encd1)); Date dd2 =
+	 * sdf.parse(cryptoUtil.decrypt(tt, encd2)); if (now.after(dd1) &&
+	 * now.before(dd2)) { System.out.println("LICENCE IS VALID"); } else {
+	 * System.out.println("LICENCE NOT VALID"); }
+	 * 
+	 * String prehash = "1" + "E1916B-Hc4324-U11121" + encd1 + encd2; // String
+	 * prehash = "1" + "E1916B-Hc4324-U11121";
+	 * 
+	 * System.out.println(Base64.getEncoder().encodeToString(prehash.getBytes())
+	 * );
+	 * 
+	 * MessageDigest digest = MessageDigest.getInstance("SHA-256"); byte[]
+	 * encodedhash = digest.digest(prehash.getBytes(StandardCharsets.UTF_8));
+	 * 
+	 * System.out.println(); System.out.println(bytesToHex(encodedhash));
+	 * 
+	 * }
+	 */
 
 }

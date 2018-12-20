@@ -5,25 +5,20 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.UUID;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.grvtech.core.model.administration.Organization;
-import com.grvtech.core.service.administration.IOrganizationService;
 import com.grvtech.core.util.CryptoUtil;
-import com.grvtech.core.util.HttpUtil;
 
 @Component
 public class MessageRequest {
@@ -32,40 +27,29 @@ public class MessageRequest {
 	private String action; // for logging and tracing
 	private ObjectNode elements;
 
-	@Autowired
-	IOrganizationService orgservice;
-
-	public MessageRequest(HttpServletRequest request) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException,
-			IllegalBlockSizeException, BadPaddingException, IOException {
-
-		Enumeration<String> hns = request.getHeaderNames();
-
-		while (hns.hasMoreElements()) {
-			String hn = hns.nextElement();
-			System.out.println("header " + hn + "     value " + request.getHeader(hn));
-		}
-		String organizationStr = request.getHeader("organization");
-		System.out.println("Organization : " + organizationStr);
-
-		Organization organization = orgservice.getOrganizationByUUID(UUID.fromString(organizationStr));
+	public MessageRequest(Organization organization, JsonNode jn) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException,
+			InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IOException {
 
 		if (!organization.isEmpty()) {
-			JsonNode jn = HttpUtil.getJSONFromPost(request);
+			// JsonNode jn = HttpUtilService.getJSONFromPost(request);
 			ObjectMapper mapper = new ObjectMapper();
 			this.action = jn.get("action").asText();
 			this.uuidsession = UUID.fromString(jn.get("uuidsession").asText());
-			this.uuidorganization = UUID.fromString(organizationStr);
+			this.uuidorganization = organization.getUuidorganization();
 			JsonNode elems = jn.get("elements");
 			this.elements = mapper.createObjectNode();
 			Iterator<String> fieldNames = elems.fieldNames();
 			String cryptoKey = organization.getLicence();
-			if (cryptoKey.equals("0")) {
+			if (this.uuidsession.toString().equals("00000000-0000-0000-0000-000000000000")) {
 				cryptoKey = this.action;
 			}
 			while (fieldNames.hasNext()) {
 				String fieldName = fieldNames.next();
+				System.out.println(" crypto key : " + cryptoKey + "    filed: " + fieldName + "   value : " + elems.get(fieldName).asText());
 				this.elements.put(fieldName, CryptoUtil.decrypt(cryptoKey, elems.get(fieldName).asText()));
 			}
+			/* add the licence of organization */
+			this.elements.put("licence", organization.getLicence());
 		} else {
 			this.action = "gol";
 		}

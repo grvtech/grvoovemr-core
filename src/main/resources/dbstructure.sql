@@ -1,4 +1,4 @@
-CREATE TABLE `grvemr_action` (
+CREATE TABLE `action` (
   `idaction` int(11) NOT NULL AUTO_INCREMENT,
   `uuidaction` varchar(50) NOT NULL,
   `uuidapplication` varchar(50) NOT NULL,
@@ -8,10 +8,10 @@ CREATE TABLE `grvemr_action` (
   PRIMARY KEY (`idaction`,`uuidapplication`),
   UNIQUE KEY `uuidaction_UNIQUE` (`uuidaction`),
   KEY `fk_grvemr_action_grvemr_application1_idx` (`uuidapplication`),
-  CONSTRAINT `fk_grvemr_action_grvemr_application1` FOREIGN KEY (`uuidapplication`) REFERENCES `grvemr_application` (`uuidapplication`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_action_grvemr_application1` FOREIGN KEY (`uuidapplication`) REFERENCES `application` (`uuidapplication`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_application` (
+CREATE TABLE `application` (
   `idapplication` int(11) NOT NULL AUTO_INCREMENT,
   `uuidapplication` varchar(50) NOT NULL,
   `uuidorganisation` varchar(50) NOT NULL,
@@ -25,10 +25,10 @@ CREATE TABLE `grvemr_application` (
   PRIMARY KEY (`idapplication`,`uuidorganisation`),
   UNIQUE KEY `uuidapplication_UNIQUE` (`uuidapplication`),
   KEY `fk_grvemr_application_grvemr_organisation1_idx` (`uuidorganisation`),
-  CONSTRAINT `fk_grvemr_application_grvemr_organisation1` FOREIGN KEY (`uuidorganisation`) REFERENCES `grvemr_organisation` (`uuidorganisation`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_application_grvemr_organisation1` FOREIGN KEY (`uuidorganisation`) REFERENCES `organization` (`uuidorganization`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_clinical_category` (
+CREATE TABLE `clinical_category` (
   `idclinicalcategory` int(11) NOT NULL AUTO_INCREMENT,
   `uuidclinicalcategory` varchar(50) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `grvemr_clinical_category` (
   UNIQUE KEY `uuidclinicalcategory_UNIQUE` (`uuidclinicalcategory`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_clinical_data` (
+CREATE TABLE `clinical_data` (
   `idclinicaldata` int(11) NOT NULL AUTO_INCREMENT,
   `uuidclinicaldata` varchar(50) NOT NULL,
   `uuidpatient` varchar(50) NOT NULL,
@@ -61,11 +61,11 @@ CREATE TABLE `grvemr_clinical_data` (
   UNIQUE KEY `uuidclinicaldata_UNIQUE` (`uuidclinicaldata`),
   KEY `fk_grvemr_clinical_data_grvemr_patient1_idx` (`uuidpatient`),
   KEY `fk_grvemr_clinical_data_grvemr_clinical_category1_idx` (`uuidclinicalcategory`),
-  CONSTRAINT `fk_grvemr_clinical_data_grvemr_clinical_category1` FOREIGN KEY (`uuidclinicalcategory`) REFERENCES `grvemr_clinical_category` (`uuidclinicalcategory`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_grvemr_clinical_data_grvemr_patient1` FOREIGN KEY (`uuidpatient`) REFERENCES `grvemr_patient` (`uuidpatient`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_clinical_data_grvemr_clinical_category1` FOREIGN KEY (`uuidclinicalcategory`) REFERENCES `clinical_category` (`uuidclinicalcategory`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_grvemr_clinical_data_grvemr_patient1` FOREIGN KEY (`uuidpatient`) REFERENCES `patient` (`uuidpatient`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_group` (
+CREATE TABLE `group` (
   `idgroup` int(11) NOT NULL AUTO_INCREMENT,
   `uuidgroup` varchar(50) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE `grvemr_group` (
   UNIQUE KEY `uuidgroup_UNIQUE` (`uuidgroup`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_group_user` (
+CREATE TABLE `group_user` (
   `idgroupuser` int(11) NOT NULL AUTO_INCREMENT,
   `uuidgroupuser` varchar(50) NOT NULL,
   `uuiduser` varchar(50) NOT NULL,
@@ -90,13 +90,13 @@ CREATE TABLE `grvemr_group_user` (
   PRIMARY KEY (`idgroupuser`,`uuiduser`,`uuidgroup`),
   KEY `fk_grvemr_group_user_grvemr_user1_idx` (`uuiduser`),
   KEY `fk_grvemr_group_user_grvemr_group1_idx` (`uuidgroup`),
-  CONSTRAINT `fk_grvemr_group_user_grvemr_group1` FOREIGN KEY (`uuidgroup`) REFERENCES `grvemr_group` (`uuidgroup`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_grvemr_group_user_grvemr_user1` FOREIGN KEY (`uuiduser`) REFERENCES `grvemr_user` (`uuiduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_group_user_grvemr_group1` FOREIGN KEY (`uuidgroup`) REFERENCES `group` (`uuidgroup`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_grvemr_group_user_grvemr_user1` FOREIGN KEY (`uuiduser`) REFERENCES `user` (`uuiduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_organisation` (
-  `idorganisation` int(11) NOT NULL AUTO_INCREMENT,
-  `uuidorganisation` varchar(50) NOT NULL,
+CREATE TABLE `organization` (
+  `idorganization` int(11) NOT NULL AUTO_INCREMENT,
+  `uuidorganization` varchar(50) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `code` varchar(45) DEFAULT NULL,
   `licence` varchar(45) DEFAULT NULL,
@@ -106,11 +106,11 @@ CREATE TABLE `grvemr_organisation` (
   `modified` datetime DEFAULT NULL,
   `createdby` varchar(50) DEFAULT NULL,
   `modifiedby` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`idorganisation`),
-  UNIQUE KEY `grvemr_organisationcol_UNIQUE` (`uuidorganisation`)
+  PRIMARY KEY (`idorganization`),
+  UNIQUE KEY `grvemr_organisationcol_UNIQUE` (`uuidorganization`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_patient` (
+CREATE TABLE `patient` (
   `idpatient` int(11) NOT NULL AUTO_INCREMENT,
   `uuidpatient` varchar(50) NOT NULL,
   `uuidperson` varchar(50) NOT NULL,
@@ -123,10 +123,10 @@ CREATE TABLE `grvemr_patient` (
   PRIMARY KEY (`idpatient`,`uuidperson`),
   UNIQUE KEY `uuidpatient_UNIQUE` (`uuidpatient`),
   KEY `fk_grvemr_patient_grvemr_person1_idx` (`uuidperson`),
-  CONSTRAINT `fk_grvemr_patient_grvemr_person1` FOREIGN KEY (`uuidperson`) REFERENCES `grvemr_person` (`uuidperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_patient_grvemr_person1` FOREIGN KEY (`uuidperson`) REFERENCES `person` (`uuidperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_person` (
+CREATE TABLE `person` (
   `idperson` int(11) NOT NULL AUTO_INCREMENT,
   `uuidperson` varchar(50) NOT NULL,
   `created` datetime DEFAULT NULL,
@@ -137,7 +137,7 @@ CREATE TABLE `grvemr_person` (
   UNIQUE KEY `uuidperson_UNIQUE` (`uuidperson`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_property` (
+CREATE TABLE `property` (
   `idproperty` int(11) NOT NULL AUTO_INCREMENT,
   `uuidproperty` varchar(50) NOT NULL,
   `uuidpropertytype` varchar(50) NOT NULL,
@@ -152,11 +152,11 @@ CREATE TABLE `grvemr_property` (
   PRIMARY KEY (`idproperty`,`uuidperson`,`uuidpropertytype`),
   KEY `fk_grvemr_property_grvemr_person1_idx` (`uuidperson`),
   KEY `fk_grvemr_property_grvemr_property_type1_idx` (`uuidpropertytype`),
-  CONSTRAINT `fk_grvemr_property_grvemr_person1` FOREIGN KEY (`uuidperson`) REFERENCES `grvemr_person` (`uuidperson`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_grvemr_property_grvemr_property_type1` FOREIGN KEY (`uuidpropertytype`) REFERENCES `grvemr_property_type` (`uuidpropertytype`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_property_grvemr_person1` FOREIGN KEY (`uuidperson`) REFERENCES `person` (`uuidperson`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_grvemr_property_grvemr_property_type1` FOREIGN KEY (`uuidpropertytype`) REFERENCES `property_type` (`uuidpropertytype`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_property_category` (
+CREATE TABLE `property_category` (
   `idpropertycategory` int(11) NOT NULL AUTO_INCREMENT,
   `uuidpropertycategory` varchar(50) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
@@ -170,7 +170,7 @@ CREATE TABLE `grvemr_property_category` (
   UNIQUE KEY `uuidpropertycategory_UNIQUE` (`uuidpropertycategory`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_property_type` (
+CREATE TABLE `property_type` (
   `idpropertytype` int(11) NOT NULL AUTO_INCREMENT,
   `uuidpropertytype` varchar(50) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
@@ -180,10 +180,10 @@ CREATE TABLE `grvemr_property_type` (
   PRIMARY KEY (`idpropertytype`,`uuidpropertycategory`),
   UNIQUE KEY `uuidpropertytype_UNIQUE` (`uuidpropertytype`),
   KEY `fk_grvemr_property_type_grvemr_property_category1_idx` (`uuidpropertycategory`),
-  CONSTRAINT `fk_grvemr_property_type_grvemr_property_category1` FOREIGN KEY (`uuidpropertycategory`) REFERENCES `grvemr_property_category` (`uuidpropertycategory`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_property_type_grvemr_property_category1` FOREIGN KEY (`uuidpropertycategory`) REFERENCES `property_category` (`uuidpropertycategory`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_role` (
+CREATE TABLE `role` (
   `idrole` int(11) NOT NULL AUTO_INCREMENT,
   `uuidrole` varchar(50) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -196,7 +196,7 @@ CREATE TABLE `grvemr_role` (
   UNIQUE KEY `uuidrole_UNIQUE` (`uuidrole`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_role_action` (
+CREATE TABLE `role_action` (
   `idroleaction` int(11) NOT NULL AUTO_INCREMENT,
   `uuidroleaction` varchar(50) NOT NULL,
   `uuidrole` varchar(50) NOT NULL,
@@ -208,11 +208,11 @@ CREATE TABLE `grvemr_role_action` (
   PRIMARY KEY (`idroleaction`,`uuidrole`,`uuidaction`),
   KEY `fk_grvemr_role_action_grvemr_role1_idx` (`uuidrole`),
   KEY `fk_grvemr_role_action_grvemr_action1_idx` (`uuidaction`),
-  CONSTRAINT `fk_grvemr_role_action_grvemr_action1` FOREIGN KEY (`uuidaction`) REFERENCES `grvemr_action` (`uuidaction`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_grvemr_role_action_grvemr_role1` FOREIGN KEY (`uuidrole`) REFERENCES `grvemr_role` (`uuidrole`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_role_action_grvemr_action1` FOREIGN KEY (`uuidaction`) REFERENCES `action` (`uuidaction`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_grvemr_role_action_grvemr_role1` FOREIGN KEY (`uuidrole`) REFERENCES `role` (`uuidrole`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_role_user` (
+CREATE TABLE `role_user` (
   `idroleuser` int(11) NOT NULL AUTO_INCREMENT,
   `uuidroleuser` varchar(50) NOT NULL,
   `uuiduser` varchar(50) NOT NULL,
@@ -224,11 +224,11 @@ CREATE TABLE `grvemr_role_user` (
   PRIMARY KEY (`idroleuser`,`uuiduser`),
   KEY `fk_grvemr_role_user_grvemr_role1_idx` (`uuidrole`),
   KEY `fk_grvemr_role_user_grvemr_user1_idx` (`uuiduser`),
-  CONSTRAINT `fk_grvemr_role_user_grvemr_role1` FOREIGN KEY (`uuidrole`) REFERENCES `grvemr_role` (`uuidrole`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_grvemr_role_user_grvemr_user1` FOREIGN KEY (`uuiduser`) REFERENCES `grvemr_user` (`uuiduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_role_user_grvemr_role1` FOREIGN KEY (`uuidrole`) REFERENCES `role` (`uuidrole`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_grvemr_role_user_grvemr_user1` FOREIGN KEY (`uuiduser`) REFERENCES `user` (`uuiduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `grvemr_user` (
+CREATE TABLE `user` (
   `iduser` int(11) NOT NULL AUTO_INCREMENT,
   `uuiduser` varchar(50) NOT NULL,
   `uuidperson` varchar(50) NOT NULL,
@@ -247,21 +247,94 @@ CREATE TABLE `grvemr_user` (
   PRIMARY KEY (`iduser`),
   UNIQUE KEY `uuiduser_UNIQUE` (`uuiduser`),
   KEY `fk_grvemr_user_grvemr_person_idx` (`uuidperson`),
-  CONSTRAINT `fk_grvemr_user_grvemr_person` FOREIGN KEY (`uuidperson`) REFERENCES `grvemr_person` (`uuidperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_grvemr_user_grvemr_person` FOREIGN KEY (`uuidperson`) REFERENCES `person` (`uuidperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-
-
-
 
 
 
 /*INSERTS*/
 
-insert into grvemr_person (uuidperson, created,modified,createdby,modifiedby) values (UUID(), NOW(), NOW(), NULL,NULL);
 
-insert into grvemr_user (uuiduser,uuidperson,email,pin,username,password,logo,securityimage,authmethod,language,created,modified,createdby,modifiedby)
-values (UUID(),(SELECT uuidperson from grvemr_person where idperson=1),'radu@grvtech.com','2407','radu','radu',NULL,NULL,'userpass','en',now(),now(),NULL,NULL);
+SET @uuidperson = UUID();
+insert into person (uuidperson, created,modified,createdby,modifiedby) values (@uuidperson, NOW(), NOW(), NULL,NULL);
+
+SET @uuiduser = UUID();
+insert into user (uuiduser,uuidperson,email,pin,username,password,logo,securityimage,authmethod,language,created,modified,createdby,modifiedby)
+values (@uuiduser,@uuidperson,'radu@grvtech.com','2407','radu','radu',NULL,NULL,'userpass','en',now(),now(),NULL,NULL);
+
+
+SET @uuidpcategoryRecord = UUID();
+insert into property_category (uuidpropertycategory,name,code,type,created,modified,createdby,modifiedby)
+values (@uuidpcategoryRecord, 'Patient Record', 'PREC', 'record',now(), now(),@uuiduser,@uuiduser);
+
+/*possible types in record  : name, address, contact, phisical, family, dates, observations, flags*/
+
+SET @uuidptypeName = UUID();
+insert into property_type (uuidpropertytype,name,code,type,uuidpropertycategory)
+values (@uuidptypeName, 'Name', 'PRECNAME', 'text',now(), now(),@uuiduser,@uuiduser);
+
+SET @uuidptypeAddress = UUID();
+insert into property_type (uuidpropertytype,name,code,type,uuidpropertycategory)
+values (@uuidptypeAddress, 'Address', 'PRECADR', 'text',now(), now(),@uuiduser,@uuiduser);
+
+SET @uuidptypeDate = UUID();
+insert into property_type (uuidpropertytype,name,code,type,uuidpropertycategory)
+values (@uuidptypeDate, 'Date', 'PRECDATE', 'date',now(), now(),@uuiduser,@uuiduser);
+
+SET @uuidptypeContact = UUID();
+insert into property_type (uuidpropertytype,name,code,type,uuidpropertycategory)
+values (@uuidptypeContact, 'Date', 'PRECDATE', 'text',now(), now(),@uuiduser,@uuiduser);
+
+
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeName, @uuidperson, 'First Name', 'fname','Radu', 1, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeName, @uuidperson, 'Last Name', 'lname','Gabor', 3, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeName, @uuidperson, 'Middle Name', 'mname','Victor', 2, 1, now(), now(), @uuiduser);
+
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeAddress, @uuidperson, 'Street', 'street','rue Magloire-Hotte', 2, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeAddress, @uuidperson, 'Number', 'no','2365', 1, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeAddress, @uuidperson, 'Zipcode', 'zip','H7L 0H9', 3, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeAddress, @uuidperson, 'City', 'city','Laval', 4, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeAddress, @uuidperson, 'Province', 'province','Quebec', 5, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeAddress, @uuidperson, 'Contry', 'contry','Canada', 6, 1, now(), now(), @uuiduser);
+
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeContact, @uuidperson, 'Home Phone', 'hphone','450-000-0000', 1, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeContact, @uuidperson, 'Email', 'email','radu@videotron.com', 2, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeContact, @uuidperson, 'Facebook', 'facebookuser','radu.gabor.222222', 3, 1, now(), now(), @uuiduser);
+
+insert into property (uuidproperty,uuidpropertytype, uuidperson, name, code, value, order, visible, created, modified, cretedby, modifiedby)
+values (UUID(), @uuidptypeDate, @uuidperson, 'Date of birth', 'dob','1974-09-17', 1, 1, now(), now(), @uuiduser);
+
+
+
+
+
+
+
+
 
 
 

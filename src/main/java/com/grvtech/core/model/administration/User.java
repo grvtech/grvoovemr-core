@@ -24,6 +24,7 @@ public class User {
 
 	public User() {
 		super();
+		this.iduser = 0;
 	}
 
 	public User(int iduser, UUID uuiduser, UUID uuidperson, UUID uuidrole, UUID uuidgroup, String username, String password, String email, String pin, String logo, String securityimage,
@@ -46,6 +47,10 @@ public class User {
 		this.modified = modified;
 		this.createdBy = createdBy;
 		this.modifiedBy = modifiedBy;
+	}
+
+	public boolean isEmpty() {
+		return (this.iduser == 0);
 	}
 
 	/**

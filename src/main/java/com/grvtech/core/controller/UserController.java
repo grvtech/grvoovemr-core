@@ -7,6 +7,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.BadPaddingException;
@@ -24,9 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grvtech.core.model.MessageRequest;
+import com.grvtech.core.model.MessageResponse;
+import com.grvtech.core.model.administration.Organization;
 import com.grvtech.core.model.administration.User;
 import com.grvtech.core.service.UserService;
 import com.grvtech.core.util.CryptoUtil;
+import com.grvtech.core.util.HttpUtilService;
 
 @RestController
 public class UserController {
@@ -39,6 +44,9 @@ public class UserController {
 	@Autowired
 	private UserService userservice;
 
+	@Autowired
+	private HttpUtilService httpservice;
+
 	@RequestMapping("/user/{userId}")
 	public ResponseEntity<User> getUserById(@PathVariable int userId) {
 		User u1 = userservice.getUserById(userId);
@@ -47,74 +55,35 @@ public class UserController {
 
 	/* getUserByUsernamePassword gubup */
 	@RequestMapping(value = "/user/gubup", method = RequestMethod.POST)
-	public ResponseEntity<User> getUserByUsernamePassword(final HttpServletRequest request) {
+	public ResponseEntity<MessageResponse> getUserByUsernamePassword(final HttpServletRequest request) {
 		User ul = new User();
-		BufferedReader reader;
+		Organization organization = httpservice.getOrganisation(request);
+		JsonNode jn = httpservice.getJSONFromPost(request);
+		MessageRequest mreq;
 		try {
-			Map<String, String[]> map = request.getParameterMap();
-			ArrayList<String> iti = new ArrayList(map.keySet());
-			for (int i = 0; i < iti.size(); i++) {
-				String[] parts = map.get(iti.get(i));
-				System.out.println(iti.get(i) + "::");
-				for (int j = 0; j < parts.length; j++) {
-					System.out.print(parts[j] + ";");
-				}
-				System.out.println();
+			mreq = new MessageRequest(organization, jn);
+			ul = userservice.getUserByUsernamePassword(mreq.getElements().get("username").asText(), mreq.getElements().get("password").asText());
+
+			if (ul.isEmpty()) {
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("error", "error-login");
+				MessageResponse mres = new MessageResponse(false, mreq, map);
+				return new ResponseEntity<MessageResponse>(mres, HttpStatus.OK);
+			} else {
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("user", ul);
+				MessageResponse mres = new MessageResponse(true, mreq, map);
+				return new ResponseEntity<MessageResponse>(mres, HttpStatus.OK);
 			}
-
-			// System.out.println("params : " + request.);
-			reader = request.getReader();
-			StringBuilder sb = new StringBuilder();
-			String line = reader.readLine();
-			while (line != null) {
-				System.out.println("line body : " + line);
-				sb.append(line);
-				line = reader.readLine();
-
-			}
-			reader.close();
-			System.out.println("------------------------------");
-			System.out.println("request body : " + sb.toString());
-			System.out.println("------------------------------");
-
-			ObjectMapper mapper = new ObjectMapper();
-			JsonNode jn = mapper.readTree(sb.toString());
-			JsonNode elements = jn.get("elements");
-			JsonNode user = elements.get("username");
-			JsonNode pass = elements.get("password");
-
-			System.out.println("------------------------------");
-			System.out.println("username encrypted: " + user);
-			System.out.println("password encrypted: " + pass);
-
-			String duser = CryptoUtil.decrypt("test", user.asText());
-			String dpass = CryptoUtil.decrypt("test", pass.asText());
-			System.out.println("username decrypted: " + duser);
-			System.out.println("password decrypted: " + dpass);
-
-			ul = userservice.getUserByUsernamePassword(duser, dpass);
-
-		} catch (IOException e) {
+		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException
+				| BadPaddingException | IOException e) {
 			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-			e.printStackTrace();
-		} catch (InvalidAlgorithmParameterException e) {
-			e.printStackTrace();
-		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
-		} catch (BadPaddingException e) {
-			e.printStackTrace();
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("error", "error-login");
+			MessageResponse mres = new MessageResponse(false, new MessageRequest(), map);
+			return new ResponseEntity<MessageResponse>(mres, HttpStatus.OK);
 		}
 
-		// User u1 = userservice.getUserById(2);
-
-		return new ResponseEntity<User>(ul, HttpStatus.OK);
 	}
 
 	/* getUserByEmailPassword */

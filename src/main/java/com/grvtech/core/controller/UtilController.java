@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.grvtech.core.model.MessageRequest;
 import com.grvtech.core.model.MessageResponse;
 import com.grvtech.core.model.administration.Organization;
 import com.grvtech.core.service.administration.IOrganizationService;
+import com.grvtech.core.util.HttpUtilService;
 
 @RestController
 public class UtilController {
@@ -30,14 +32,20 @@ public class UtilController {
 	@Autowired
 	IOrganizationService orgservice;
 
+	@Autowired
+	HttpUtilService httpservice;
+
 	@RequestMapping(value = "/util/gl", method = RequestMethod.POST)
 	public ResponseEntity<MessageResponse> getLicense(final HttpServletRequest request) {
 		MessageResponse mres = new MessageResponse(false, new MessageRequest(), new HashMap<>());
 		try {
-			MessageRequest mreq = new MessageRequest(request);
-			HashMap<String, String> map = new HashMap<>();
+			JsonNode jn = httpservice.getJSONFromPost(request);
+			Organization org = httpservice.getOrganisation(request);
+			MessageRequest mreq = new MessageRequest(org, jn);
+			HashMap<String, Object> map = new HashMap<>();
 			Organization organization = orgservice.getOrganizationByUUID(mreq.getUuidorganization());
 			map.put("licence", organization.getLicence());
+			map.put("organization", organization);
 			mres = new MessageResponse(true, mreq, map);
 
 		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException

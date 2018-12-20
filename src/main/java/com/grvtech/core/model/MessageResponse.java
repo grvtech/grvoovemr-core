@@ -15,9 +15,9 @@ import javax.crypto.NoSuchPaddingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.grvtech.core.model.administration.Organization;
 import com.grvtech.core.service.administration.IOrganizationService;
 import com.grvtech.core.util.CryptoUtil;
 
@@ -77,7 +77,7 @@ public class MessageResponse {
 		this.action = "gol";
 	}
 
-	public MessageResponse(boolean status, MessageRequest mr, HashMap<String, String> map) {
+	public MessageResponse(boolean status, MessageRequest mr, HashMap<String, Object> map) {
 		super();
 		ObjectMapper mapper = new ObjectMapper();
 		this.action = mr.getAction();
@@ -92,12 +92,16 @@ public class MessageResponse {
 		} else {
 			this.elements = mapper.createObjectNode();
 			Set<String> fieldNames = map.keySet();
-			Organization org = orgservice.getOrganizationByUUID(mr.getUuidorganization());
+			String licence = mr.getElements().get("licence").asText();
+			String cryptokey = licence;
+			if (this.uuidsession.toString().equals("00000000-0000-0000-0000-000000000000")) {
+				cryptokey = this.action;
+			}
 			for (String fieldName : fieldNames) {
 				try {
-					this.elements.put(fieldName, CryptoUtil.encrypt(org.getLicence(), map.get(fieldName)));
+					this.elements.put(fieldName, CryptoUtil.encrypt(cryptokey, mapper.writeValueAsString(map.get(fieldName))));
 				} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | UnsupportedEncodingException
-						| IllegalBlockSizeException | BadPaddingException e) {
+						| IllegalBlockSizeException | BadPaddingException | JsonProcessingException e) {
 
 					e.printStackTrace();
 					this.status = "error";
