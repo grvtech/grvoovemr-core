@@ -29,14 +29,17 @@ public class UserDao implements IUserDao {
 
 	@Override
 	public User getUserByUsernamePassword(String user, String pass) {
-		String sql = "SELECT * FROM user WHERE username = ? and password=?";
+		String sql = "SELECT * FROM user WHERE username = '" + user + "' and password= '" + pass + "'";
 		RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
 		// User User = jdbcTemplate. .queryForObject(sql, rowMapper, user,
 		// pass);
-		List users = jdbcTemplate.query(sql, rowMapper, user, pass);
+		System.out.println("get user from db sql : " + sql);
+		List<User> users = jdbcTemplate.query(sql, rowMapper);
 		User u = new User();
+		System.out.println("get user from db!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		if (users.size() > 0) {
-			u = (User) users.get(0);
+			System.out.println("user found in db!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			u = users.get(0);
 		}
 		return u;
 	}

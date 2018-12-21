@@ -45,7 +45,6 @@ public class UtilController {
 			HashMap<String, Object> map = new HashMap<>();
 			Organization organization = orgservice.getOrganizationByUUID(mreq.getUuidorganization());
 			map.put("licence", organization.getLicence());
-			map.put("organization", organization);
 			mres = new MessageResponse(true, mreq, map);
 
 		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException

@@ -70,6 +70,7 @@ public class UserController {
 				MessageResponse mres = new MessageResponse(false, mreq, map);
 				return new ResponseEntity<MessageResponse>(mres, HttpStatus.OK);
 			} else {
+				System.out.println("It is the good user on the core!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				HashMap<String, Object> map = new HashMap<>();
 				map.put("user", ul);
 				MessageResponse mres = new MessageResponse(true, mreq, map);

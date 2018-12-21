@@ -45,8 +45,16 @@ public class MessageRequest {
 			}
 			while (fieldNames.hasNext()) {
 				String fieldName = fieldNames.next();
-				System.out.println(" crypto key : " + cryptoKey + "    filed: " + fieldName + "   value : " + elems.get(fieldName).asText());
-				this.elements.put(fieldName, CryptoUtil.decrypt(cryptoKey, elems.get(fieldName).asText()));
+				String scramble = elems.get(fieldName).asText();
+				String unscramble = CryptoUtil.decrypt(cryptoKey, scramble);
+				String unjson = mapper.readValue(unscramble, String.class);
+				// System.out.println(" crypto key : " + cryptoKey + " decript:
+				// " + CryptoUtil.decrypt(cryptoKey,
+				// elems.get(fieldName).asText()) + " value : " +
+				// elems.get(fieldName).asText());
+				// this.elements.put(fieldName, CryptoUtil.decrypt(cryptoKey,
+				// elems.get(fieldName).asText()));
+				this.elements.put(fieldName, unjson);
 			}
 			/* add the licence of organization */
 			this.elements.put("licence", organization.getLicence());
