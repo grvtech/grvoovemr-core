@@ -3,6 +3,8 @@ package com.grvtech.core.model.administration;
 import java.util.Date;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
 	private int iduser;
 	private UUID uuiduser;
@@ -15,7 +17,7 @@ public class User {
 	private String pin;
 	private String logo; // can be an url or a name of a local image
 	private String securityimage;
-	private String authmetod;
+	private String authmethod;
 	private String language;
 	private Date created;
 	private Date modified;
@@ -28,7 +30,7 @@ public class User {
 	}
 
 	public User(int iduser, UUID uuiduser, UUID uuidperson, UUID uuidrole, UUID uuidgroup, String username, String password, String email, String pin, String logo, String securityimage,
-			String authmetod, String language, Date created, Date modified, UUID createdBy, UUID modifiedBy) {
+			String authmethod, String language, Date created, Date modified, UUID createdBy, UUID modifiedBy) {
 		super();
 		this.iduser = iduser;
 		this.uuiduser = uuiduser;
@@ -41,7 +43,7 @@ public class User {
 		this.pin = pin;
 		this.logo = logo;
 		this.securityimage = securityimage;
-		this.authmetod = authmetod;
+		this.authmethod = authmethod;
 		this.language = language;
 		this.created = created;
 		this.modified = modified;
@@ -49,6 +51,7 @@ public class User {
 		this.modifiedBy = modifiedBy;
 	}
 
+	@JsonIgnore
 	public boolean isEmpty() {
 		return (this.iduser == 0);
 	}
@@ -219,18 +222,18 @@ public class User {
 	}
 
 	/**
-	 * @return the authmetod
+	 * @return the authmethod
 	 */
-	public String getAuthmetod() {
-		return authmetod;
+	public String getAuthmethod() {
+		return authmethod;
 	}
 
 	/**
-	 * @param authmetod
-	 *            the authmetod to set
+	 * @param authmethod
+	 *            the authmethod to set
 	 */
-	public void setAuthmetod(String authmetod) {
-		this.authmetod = authmetod;
+	public void setAuthmethod(String authmethod) {
+		this.authmethod = authmethod;
 	}
 
 	/**

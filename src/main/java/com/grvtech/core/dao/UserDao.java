@@ -29,10 +29,9 @@ public class UserDao implements IUserDao {
 
 	@Override
 	public User getUserByUsernamePassword(String user, String pass) {
-		String sql = "SELECT * FROM user WHERE username = '" + user + "' and password= '" + pass + "'";
+		String sql = "SELECT u.*, gu.uuidgroup,ru.uuidrole FROM user u left join group_user gu on u.uuiduser = gu.uuiduser left join role_user ru on u.uuiduser = ru.uuiduser WHERE u.username = '"
+				+ user + "' and u.password= '" + pass + "'";
 		RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
-		// User User = jdbcTemplate. .queryForObject(sql, rowMapper, user,
-		// pass);
 		System.out.println("get user from db sql : " + sql);
 		List<User> users = jdbcTemplate.query(sql, rowMapper);
 		User u = new User();
