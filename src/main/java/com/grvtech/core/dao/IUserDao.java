@@ -2,7 +2,7 @@ package com.grvtech.core.dao;
 
 import java.util.List;
 
-import com.grvtech.core.model.User;
+import com.grvtech.core.model.administration.User;
 
 public interface IUserDao {
 	List<User> getAllUsers();
@@ -16,5 +16,9 @@ public interface IUserDao {
 	void deleteUser(int iduser);
 
 	boolean userExists(String username, String password);
+
+	User getUserByUsernamePassword(String user, String pass);
+
+	User getUserByEmailPassword(String email, String pass);
 
 }

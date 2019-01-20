@@ -2,7 +2,7 @@ package com.grvtech.core.service;
 
 import java.util.List;
 
-import com.grvtech.core.model.User;
+import com.grvtech.core.model.administration.User;
 
 public interface IUserService {
 	List<User> getAllUsers();
@@ -14,4 +14,8 @@ public interface IUserService {
 	void updateUser(User user);
 
 	void deleteUser(int iduser);
+
+	User getUserByUsernamePassword(String user, String pass);
+
+	User getUserByEmailPassword(String email, String pass);
 }
