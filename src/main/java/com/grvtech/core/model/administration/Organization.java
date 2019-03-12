@@ -25,6 +25,7 @@ public class Organization {
 	public Organization() {
 		super();
 		this.idorganization = 0;
+		this.licence = "";
 	}
 
 	public boolean isEmpty() {

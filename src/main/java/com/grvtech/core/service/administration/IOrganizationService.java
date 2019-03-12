@@ -7,4 +7,5 @@ import com.grvtech.core.model.administration.Organization;
 public interface IOrganizationService {
 
 	public Organization getOrganizationByUUID(UUID uuidorganization);
+	public boolean hasValidLicence(Organization organisation);
 }

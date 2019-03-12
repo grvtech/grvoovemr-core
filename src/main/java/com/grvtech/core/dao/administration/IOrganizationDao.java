@@ -6,4 +6,5 @@ import com.grvtech.core.model.administration.Organization;
 
 public interface IOrganizationDao {
 	public Organization getOrganizationByUUID(UUID uuidorganization);
+
 }

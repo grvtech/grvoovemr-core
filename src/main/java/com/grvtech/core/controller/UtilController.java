@@ -38,14 +38,36 @@ public class UtilController {
 	@RequestMapping(value = "/util/gl", method = RequestMethod.POST)
 	public ResponseEntity<MessageResponse> getLicense(final HttpServletRequest request) {
 		MessageResponse mres = new MessageResponse(false, new MessageRequest(), new HashMap<>());
+		HashMap<String, Object> map = new HashMap<>();
 		try {
 			JsonNode jn = httpservice.getJSONFromPost(request);
+			MessageRequest mreq = new MessageRequest();
 			Organization org = httpservice.getOrganisation(request);
-			MessageRequest mreq = new MessageRequest(org, jn);
-			HashMap<String, Object> map = new HashMap<>();
-			Organization organization = orgservice.getOrganizationByUUID(mreq.getUuidorganization());
-			map.put("licence", organization.getLicence());
-			mres = new MessageResponse(true, mreq, map);
+			if (!org.isEmpty()) {
+				mreq = new MessageRequest(org, jn);
+
+				System.out.println("--------------------------------------------------");
+				System.out.println("uuid organisation : " + mreq.getUuidorganization());
+				System.out.println("action : " + mreq.getAction());
+				System.out.println("elements : " + mreq.getElements());
+				System.out.println("session : " + mreq.getUuidsession());
+				System.out.println("--------------------------------------------------");
+
+				// Organization organization =
+				// orgservice.getOrganizationByUUID(mreq.getUuidorganization());
+
+				if (orgservice.hasValidLicence(org)) {
+					map.put("licence", org.getLicence());
+					mres = new MessageResponse(true, mreq, map);
+				} else {
+					map.put("licence", "");
+					mres = new MessageResponse(true, mreq, map);
+				}
+
+			} else {
+				map.put("licence", "");
+				mres = new MessageResponse(true, mreq, map);
+			}
 
 		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException
 				| BadPaddingException | IOException e) {

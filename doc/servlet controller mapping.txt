@@ -1,2 +1,10 @@
 /util/gl   - get license
 
+license flow
+1 validate licenc ar start of client
+2 schedule licence validation every day
+3 warning 1 year 6 months 3 months once admin(s) at login - by mail
+4 alert 1 month every day - admin(s) at login - by mail
+5 alert 1week - every user at login
+
+restart wit no licence - stop client
